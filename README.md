@@ -1,1 +1,2 @@
-# Mobile-Shop-App
+# Shop-App
+React Native Mobile App
