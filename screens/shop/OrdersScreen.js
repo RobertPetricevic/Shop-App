@@ -1,18 +1,25 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { HeaderButtons, Item } from "react-navigation-header-buttons";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import { StyleSheet, FlatList, View, Text } from "react-native";
+
 import HeaderButton from "../../components/UI/HeaderButton";
 import OrderItem from "../../components/shop/OrderItem";
+import * as ordersActions from "../../store/actions/orders";
 
-const OrdersScreen = props => {
-  const orders = useSelector(state => state.orders.orders);
+const OrdersScreen = (props) => {
+  const orders = useSelector((state) => state.orders.orders);
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    dispatch(ordersActions.fetchOrders());
+  }, [dispatch]);
 
   return (
     <FlatList
-      keyExtractor={item => item.id}
+      keyExtractor={(item) => item.id}
       data={orders}
-      renderItem={itemData => (
+      renderItem={(itemData) => (
         <OrderItem
           amount={itemData.item.totalAmount}
           date={itemData.item.readableDate}
@@ -23,7 +30,7 @@ const OrdersScreen = props => {
   );
 };
 
-OrdersScreen.navigationOptions = navData => {
+OrdersScreen.navigationOptions = (navData) => {
   return {
     headerTitle: "Your Orders",
     headerRight: () => (
@@ -47,7 +54,7 @@ OrdersScreen.navigationOptions = navData => {
           }}
         />
       </HeaderButtons>
-    )
+    ),
   };
 };
 
